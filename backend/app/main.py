@@ -567,6 +567,7 @@ def get_audit(flight_id):
 def health():
     return jsonify({"status": "ok"})
     @app.get("/debug/env")
+
 def debug_env():
     """Diagnostic endpoint — reports what THIS running process actually sees
     in its environment. No secret values are ever returned, only presence
@@ -583,7 +584,6 @@ def debug_env():
         "db_module_IS_POSTGRES": db_mod.IS_POSTGRES,
         "db_module_PROFILE_TABLE": db_mod.PROFILE_TABLE,
     })
-
 
 if __name__ == "__main__":
     import os
