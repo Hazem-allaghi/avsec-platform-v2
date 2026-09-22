@@ -69,7 +69,7 @@
 <div id="status">جاري التحميل...</div>
 
 <script>
-const BASE = window.location.origin.includes('5055') ? window.location.origin : 'http://127.0.0.1:5055';
+const BASE = window.location.origin;
 document.getElementById('apiBase').textContent = BASE;
 
 async function api(path, opts={}) {
