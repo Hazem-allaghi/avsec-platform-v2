@@ -566,6 +566,23 @@ def get_audit(flight_id):
 @app.get("/health")
 def health():
     return jsonify({"status": "ok"})
+    @app.get("/debug/env")
+def debug_env():
+    """Diagnostic endpoint — reports what THIS running process actually sees
+    in its environment. No secret values are ever returned, only presence
+    booleans and the (non-secret) backend selector. Safe to leave temporarily
+    during setup; remove before real production use."""
+    from . import db as db_mod
+    database_url = os.environ.get("DATABASE_URL", "")
+    return jsonify({
+        "AVSEC_DB_BACKEND_env": os.environ.get("AVSEC_DB_BACKEND", "(not set)"),
+        "DATABASE_URL_is_set": bool(database_url),
+        "DATABASE_URL_starts_with": database_url[:13] if database_url else "(empty)",
+        "SUPABASE_JWT_SECRET_is_set": bool(os.environ.get("SUPABASE_JWT_SECRET")),
+        "SUPABASE_JWT_AUD_env": os.environ.get("SUPABASE_JWT_AUD", "(not set)"),
+        "db_module_IS_POSTGRES": db_mod.IS_POSTGRES,
+        "db_module_PROFILE_TABLE": db_mod.PROFILE_TABLE,
+    })
 
 
 if __name__ == "__main__":
